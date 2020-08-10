@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.Entities;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -8,17 +10,23 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<List<Product>> GetAll()
+        private readonly IProductRepository _productRepository;
+        public ProductsController(IProductRepository productRepository)
         {
-            var products = new List<Product>();
+            this._productRepository = productRepository;
+
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<Product>>> GetAll()
+        {
+            var products = await _productRepository.GetAllAsync();
             return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Product> GetById(int id)
+        public async Task<ActionResult<Product>> GetById(int id)
         {
-            var product = new Product();
+            var product = await _productRepository.GetByIdAsync(id);
             return Ok(product);
         }
     }
