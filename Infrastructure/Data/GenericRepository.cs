@@ -16,15 +16,20 @@ namespace Infrastructure.Data
         {
             _context = context;
         }
+
+        public Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return ApplySpecification(spec).CountAsync();
+        }
+
         public async Task<T> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
+        public Task<T> GetEntityWithSpec(ISpecification<T> spec)
         {
-            var query = ApplySpecification(spec);
-            return await query.FirstOrDefaultAsync();
+            return ApplySpecification(spec).FirstOrDefaultAsync();
         }
 
         public async Task<IReadOnlyList<T>> ListAllAsync()
