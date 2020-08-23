@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BasketService } from './basket/basket.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'client';
+
+  constructor(private basketService: BasketService) {
+    const basketId = localStorage.getItem('basket_id');
+    if (basketId) {
+      basketService.get(basketId).subscribe(() => { });
+    }
+  }
 }
