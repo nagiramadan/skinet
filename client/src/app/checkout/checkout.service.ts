@@ -1,4 +1,4 @@
-//import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class CheckoutService {
 
-  //baseUrl: environment.baseUrl;
+  baseUrl = environment.apiUrl;
   constructor() { }
 
 }
