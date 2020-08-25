@@ -13,7 +13,7 @@ export class AccountService {
 
   baseUrl = environment.apiUrl;
   // behavior subject must have an initial value, so any subscribers will be emitted by current value
-  // Replay subject it will male all subscribers wait until it get value then emit.
+  // Replay subject it will make all subscribers wait until it get value then emit.
   private currentUserSource = new ReplaySubject<IUser>(1);
   currentUser$ = this.currentUserSource.asObservable();
 

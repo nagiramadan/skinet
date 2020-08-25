@@ -22,13 +22,6 @@ export class BasketService {
 
   }
 
-  set(basket: IBasket) {
-    return this.http.post<IBasket>(this.baseUrl + 'basket', basket).subscribe(x => {
-      this.basketSource.next(x);
-      this.calculateTotals();
-    }, error => console.log(error));
-  }
-
   get(basketId: string) {
     let params = new HttpParams();
     params = params.append('id', basketId);
@@ -40,25 +33,10 @@ export class BasketService {
       }));
   }
 
-  delete(basketId: string) {
-    const params = new HttpParams();
-    params.append('id', basketId);
-    return this.http.delete<boolean>(this.baseUrl + 'basket', { params: params })
-      .subscribe(() => {
-        this.basketSource.next(null);
-        this.basketTotalsSource.next(null);
-        localStorage.removeItem('basket_id');
-      }, error => console.log(error));
-  }
-
-  getCurrentBasktValue() {
-    return this.basketSource.value;
-  }
-
   addItem(item: IProduct, quantity = 1) {
     const itemToAdd: IBasketItem = this.mapProductItemToBasketItem(item, quantity);
     const basket = this.getCurrentBasktValue() ?? this.createBasket();
-    basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
+    basket.items = this.addOrUpdateItem(basket.items, itemToAdd);
     this.set(basket);
   }
 
@@ -92,10 +70,32 @@ export class BasketService {
     }
   }
 
-  private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number): IBasketItem[] {
+  
+  private set(basket: IBasket) {
+    return this.http.post<IBasket>(this.baseUrl + 'basket', basket).subscribe(x => {
+      this.basketSource.next(x);
+      this.calculateTotals();
+    }, error => console.log(error));
+  }
+
+  private delete(basketId: string) {
+    const params = new HttpParams();
+    params.append('id', basketId);
+    return this.http.delete<boolean>(this.baseUrl + 'basket', { params: params })
+      .subscribe(() => {
+        this.basketSource.next(null);
+        this.basketTotalsSource.next(null);
+        localStorage.removeItem('basket_id');
+      }, error => console.log(error));
+  }
+
+  private getCurrentBasktValue() {
+    return this.basketSource.value;
+  }
+
+  private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem): IBasketItem[] {
     const index = items.findIndex(i => i.id === itemToAdd.id);
     if (index === -1) {
-      itemToAdd.quantity = quantity;
       items.push(itemToAdd);
     } else {
       items[index].quantity += itemToAdd.quantity;
