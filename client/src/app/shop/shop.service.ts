@@ -17,19 +17,19 @@ export class ShopService {
 
   getProducts(shopParam: ShopParam) {
     let params = new HttpParams();
-    if(shopParam.selectedBrandId !== 0) {
+    if (shopParam.selectedBrandId !== 0) {
       params = params.append('brandId', shopParam.selectedBrandId.toString());
     }
-    if(shopParam.selectedTypeId !== 0) {
+    if (shopParam.selectedTypeId !== 0) {
       params = params.append('typeId', shopParam.selectedTypeId.toString());
     }
-    if(shopParam.search) {
+    if (shopParam.search) {
       params = params.append('search', shopParam.search);
     }
     params = params.append('sort', shopParam.selectedSort);
     params = params.append('pageSize', shopParam.pageSize.toString());
     params = params.append('pageIndex', shopParam.pageNumber.toString());
-    return this.http.get<IPagination<IProduct>>(this.baseUrl + 'products', { params: params });
+    return this.http.get<IPagination<IProduct>>(this.baseUrl + 'products', { params });
   }
 
   getProduct(id: number) {

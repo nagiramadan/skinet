@@ -1,3 +1,15 @@
 <div class="container">
-  <h1>Only authorized user should be able to see this</h1>
+  <div class="row">
+    <div class="col-8">
+      <app-stepper [linearModeSelected]="false" #appStepper>
+        <cdk-step [label]="'Address'" [completed]="checkoutForm.controls.addressForm.valid"><app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address></cdk-step>
+        <cdk-step [label]="'Delivery'" [completed]="checkoutForm.controls.deliveryForm.valid"><app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery></cdk-step>
+        <cdk-step [label]="'Review'" ><app-checkout-review></app-checkout-review></cdk-step>
+        <cdk-step [label]="'Paymnet'"><app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment></cdk-step>
+      </app-stepper>
+    </div>
+    <div class="col-4">
+      <app-order-summary></app-order-summary>
+    </div>
+  </div>
 </div>

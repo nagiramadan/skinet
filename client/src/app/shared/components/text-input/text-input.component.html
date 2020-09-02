@@ -8,7 +8,7 @@
     (input)="onChange($event.target.value)"
     (blur)="onTouched()"
     [ngClass]="(controlDir && controlDir.control && controlDir.control.touched && controlDir.control.status !== 'PENDING') 
-    ? !controlDir.control.valid ? 'is-invalid' : 'is-valid' : ''"
+    ? controlDir.control.invalid ? 'is-invalid' : 'is-valid' : ''"
   >
 
   <div *ngIf="controlDir && controlDir.control && controlDir.control.status === 'PENDING'"
