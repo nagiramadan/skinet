@@ -60,7 +60,7 @@ namespace API.Controllers
         public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto model)
         {
             var user = await _userManager.FindByClaimsPrincipleWithAddressAsync(HttpContext.User);
-            _mapper.Map(model, user.Address);
+            user.Address = _mapper.Map<Address>(model);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded) return _mapper.Map<AddressDto>(user.Address);
             return BadRequest("Problem updating the user");
