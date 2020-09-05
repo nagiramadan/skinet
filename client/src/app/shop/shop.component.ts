@@ -17,7 +17,7 @@ export class ShopComponent implements OnInit {
   products: IProduct[];
   brands: IBrand[];
   types: IProductType[];
-  shopParam = new ShopParam();
+  shopParam: ShopParam;
   sortedOptions = [
     { name: 'Alphabetical', value: '' },
     { name: 'Price: Low to High', value: 'priceAsc' },
@@ -25,21 +25,20 @@ export class ShopComponent implements OnInit {
   ];
   totalCount = 0;
   constructor(private shopService: ShopService) {
+    this.shopParam = shopService.getShopParams();
   }
 
   ngOnInit() {
-    this.getProducts();
+    this.getProducts(true);
     this.getBrands();
     this.getTypes();
   }
 
-  getProducts() {
-    this.shopService.getProducts(this.shopParam).subscribe(
+  getProducts(userCache = false) {
+    this.shopService.getProducts(userCache).subscribe(
       x => {
         this.products = x.data;
         this.totalCount = x.count;
-        this.shopParam.pageNumber = x.pageIndex;
-        this.shopParam.pageSize = x.pageSize;
       },
       error => console.log(error));
   }
@@ -76,12 +75,13 @@ export class ShopComponent implements OnInit {
   onPageChanged(pageNumber: number) {
     if (this.shopParam.pageNumber !== pageNumber) {
       this.shopParam.pageNumber = pageNumber;
-      this.getProducts();
+      this.getProducts(true);
     }
   }
 
   onReset() {
     this.shopParam = new ShopParam();
+    this.shopService.setShopParams(this.shopParam);
     this.searchInput.nativeElement.value = '';
     this.getProducts();
   }
