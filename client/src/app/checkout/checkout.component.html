@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-8">
-      <app-stepper [linearModeSelected]="false" #appStepper>
+      <app-stepper [linearModeSelected]="true" #appStepper>
         <cdk-step [label]="'Address'" [completed]="checkoutForm.controls.addressForm.valid"><app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address></cdk-step>
         <cdk-step [label]="'Delivery'" [completed]="checkoutForm.controls.deliveryForm.valid"><app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery></cdk-step>
         <cdk-step [label]="'Review'" ><app-checkout-review></app-checkout-review></cdk-step>

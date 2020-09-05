@@ -22,7 +22,7 @@ export class OrderDetailsComponent implements OnInit {
     const id = +this.route.snapshot.params.id;
     this.orderService.getById(id).subscribe(o => {
       this.order = o;
-      this.bcService.set('@orderDetails', '# ' + o.id);
+      this.bcService.set('@orderDetails', 'Order# ' + o.id + ' - ' + o.status);
     });
   }
 

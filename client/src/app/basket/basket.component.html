@@ -1,27 +1,18 @@
-<div class="container" *ngIf="(basket$ | async) as basket">
-  <div *ngIf="basket == null || basket.items.length === 0">
-    <p>There are no items in your basket</p>
-  </div>
+<div class="container" *ngIf="basket$ | async as basket; else noItems">
 
   <div *ngIf="!(basket == null || basket.items.length === 0)">
     <div class="pb-5">
       <div class="container">
         <div class="row">
           <div class="col-12 py-5 mb-1">
-            <app-basket-summary
-              (increment)="incrementItemQuantity($event)"
-              (decrement)="decrementItemQuantity($event)"
-              (remove)="removeBasketItem($event)"
-            ></app-basket-summary>
+            <app-basket-summary (increment)="incrementItemQuantity($event)" (decrement)="decrementItemQuantity($event)"
+              (remove)="removeBasketItem($event)"></app-basket-summary>
           </div>
         </div>
         <div class="row">
           <div class="col-6 offset-6">
             <app-order-summary></app-order-summary>
-            <a
-              routerLink="/checkout"
-              class="btn btn-outline-primary py-2 btn-block"
-            >
+            <a routerLink="/checkout" class="btn btn-outline-primary py-2 btn-block">
               Proceed to checkout
             </a>
           </div>
@@ -30,3 +21,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #noItems>
+  <div class="container">
+    <p>There are no items in your basket</p>
+  </div>
+</ng-template>
